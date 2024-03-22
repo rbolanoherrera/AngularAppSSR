@@ -3,6 +3,7 @@ import 'zone.js/node';
 import { APP_BASE_HREF } from '@angular/common';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
+const cors = require('cors');
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import { AppServerModule } from './src/main.server';
@@ -22,7 +23,12 @@ export function app(): express.Express {
 
   server.set('view engine', 'html');
   server.set('views', distFolder);
-  server.use(express.json())
+  server.use(express.json());
+  server.use(cors({
+        origin: '*',
+        optionsSuccessStatus: 200
+      })
+);
 
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
@@ -66,12 +72,12 @@ export function app(): express.Express {
       //   message: "Metodo Post ejecutado exitosamente!"
       // });
       
-      //return res.status(200).json(req.body);
+    return res.status(200).json(req.body);
 
     //return res.send('modulo-web');
     //return res.send('app-componente1');
     //return res.send(home1);
-    return res.render('home1.html', { initialize: req.body });
+    //return res.render('home1.html', { initialize: req.body });
   });
 
 
